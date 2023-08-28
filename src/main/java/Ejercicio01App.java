@@ -35,6 +35,14 @@ public class Ejercicio01App {
 		String queryRegistrosArticulos = "INSERT INTO articulos (nombre, precio, fabricante) VALUES "
 				+ "('iPhone 14 Pro', 1199, 1), ('Tesla Model 3', 50000, 2), ('Pantalla OLED 144Hz', 350, 3), ('Yaris', 8000, 4), ('Camiseta KSJ', 35, 5);";
 		conexion.insertarDatos("tiendainformatica", queryRegistrosArticulos);
+		
+		// Podemos incluso obtener datos de las tablas
+		System.out.println("Fabricantes");
+		conexion.obtenerDatos("tiendainformatica", "fabricantes", new String[] {"Codigo", "Nombre"});
+		System.out.println();
+		
+		System.out.println("Artículos");
+		conexion.obtenerDatos("tiendainformatica", "articulos", new String[] {"Codigo", "Nombre", "Precio", "Fabricante"});
 
 		// Cerramos la conexión
 		conexion.cerrarConexion();

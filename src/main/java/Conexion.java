@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -60,13 +61,13 @@ public class Conexion {
 	}
 	
 	// Crea una BD
-	public void crearDB(String name) {
+	public void crearDB(String nombreBD) {
         try {
-            String query = "CREATE DATABASE " + name;
+            String query = "CREATE DATABASE " + nombreBD;
             Statement st = conexion.createStatement();
             st.execute(query);
 
-            JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa.");
+            JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + nombreBD + " de forma exitosa.");
             
         } catch (Exception e) {
             System.out.println(e);
@@ -74,9 +75,9 @@ public class Conexion {
     }
 	
 	// Crea una tabla
-	public void crearTabla(String db, String query) {
+	public void crearTabla(String nombreBD, String query) {
         try {
-            String queryDb = "USE " + db + ";";
+            String queryDb = "USE " + nombreBD + ";";
             Statement stdb = conexion.createStatement();
             stdb.executeUpdate(queryDb);
 
@@ -91,9 +92,9 @@ public class Conexion {
     }
 	
 	// Inserta datos en una tabla
-	public void insertarDatos(String db, String query) {
+	public void insertarDatos(String nombreBD, String query) {
 		try {
-			String queryDb = "USE " + db + ";";
+			String queryDb = "USE " + nombreBD + ";";
 			Statement stdb = conexion.createStatement();
 			stdb.executeUpdate(queryDb);
 			
@@ -102,8 +103,34 @@ public class Conexion {
             
             JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+	
+	// Obtiene todos los datos de una tabla
+	public void obtenerDatos(String nombreBD, String nombreTabla, String[] listaColumnas) {
+		try {
+			String queryDb = "USE " + nombreBD + ";";
+			Statement stdb = conexion.createStatement();
+			stdb.executeUpdate(queryDb);
+			
+			String query = "SELECT * FROM " + nombreTabla;
+			Statement st = conexion.createStatement();
+			ResultSet resultSet = st.executeQuery(query);
+			
+			while (resultSet.next()) {
+				StringBuilder registro = new StringBuilder();
+				
+	            for (String columna : listaColumnas) {
+	            	registro.append(columna).append(": ").append(resultSet.getString(columna)).append(" | ");
+	            }
+	            System.out.println(registro.toString());
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
 }
