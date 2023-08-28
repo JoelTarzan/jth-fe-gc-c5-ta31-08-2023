@@ -1,11 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.swing.JOptionPane;
-
-public class Ejercicio01App {
+	public class Ejercicio01App {
 
 	public static void main(String[] args) {
 
@@ -27,7 +20,7 @@ public class Ejercicio01App {
 				+ "PRIMARY KEY(codigo), FOREIGN KEY(fabricante) REFERENCES fabricantes (codigo) ON DELETE cascade ON UPDATE cascade);";
 		conexion.crearTabla("tiendainformatica", queryArticulos);
 		
-		// Creamos ahora las query para insertar datos en las dos tablas
+		// Creamos ahora las query para insertar registros en las dos tablas
 		String queryRegistrosFabricantes = "INSERT INTO fabricantes (nombre) VALUES "
 				+ "('Apple'), ('Tesla'), ('LG'), ('Toyota'), ('Nike');";
 		conexion.insertarDatos("tiendainformatica", queryRegistrosFabricantes);
@@ -43,6 +36,26 @@ public class Ejercicio01App {
 		
 		System.out.println("Artículos");
 		conexion.obtenerDatos("tiendainformatica", "articulos", new String[] {"Codigo", "Nombre", "Precio", "Fabricante"});
+		System.out.println();
+		
+		// Tambien podemos modificar los datos de algun registro
+		String queryEditarArticulo = "UPDATE articulos SET precio = 500 WHERE codigo = 3";
+		conexion.modificarRegisto("tiendainformatica", queryEditarArticulo);
+		
+		// Por último podriamos eliminar completamente un regisro
+		String queryEliminarArticulo = "DELETE FROM articulos WHERE codigo = 4";
+		conexion.eliminarRegistro("tiendainformatica", queryEliminarArticulo);
+		
+		// Volvemos a mostrar los datos para ver los cambios realizados
+		System.out.println("----------------------");
+		
+		System.out.println("Fabricantes");
+		conexion.obtenerDatos("tiendainformatica", "fabricantes", new String[] {"Codigo", "Nombre"});
+		System.out.println();
+		
+		System.out.println("Artículos");
+		conexion.obtenerDatos("tiendainformatica", "articulos", new String[] {"Codigo", "Nombre", "Precio", "Fabricante"});
+		System.out.println();
 
 		// Cerramos la conexión
 		conexion.cerrarConexion();

@@ -1,7 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
@@ -133,4 +132,37 @@ public class Conexion {
 		}
 	}
 	
+	// Modifica un registro
+	public void modificarRegisto(String nombreBD, String query) {
+		try {
+			String queryDb = "USE " + nombreBD + ";";
+			Statement stdb = conexion.createStatement();
+			stdb.executeUpdate(queryDb);
+			
+			Statement st = conexion.createStatement();
+            st.executeUpdate(query);
+            
+            JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	// Elimina un registro
+	public void eliminarRegistro(String nombreBD, String query) {
+		try {
+			String queryDb = "USE " + nombreBD + ";";
+			Statement stdb = conexion.createStatement();
+			stdb.executeUpdate(queryDb);
+			
+			Statement st = conexion.createStatement();
+            st.executeUpdate(query);
+            
+            JOptionPane.showMessageDialog(null, "Datos eliminados correctamente.");
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }
